@@ -20,7 +20,7 @@ RUN dotnet publish src/GlobalActivityBot/GlobalActivityBot.csproj \
     --output /app/publish
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:9.0 AS runtime
 WORKDIR /app
 
 # Create non-root user for security

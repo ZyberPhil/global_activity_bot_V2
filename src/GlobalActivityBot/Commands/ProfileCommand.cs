@@ -15,7 +15,7 @@ public class ProfileCommand
         _profileService = profileService;
     }
 
-    [Command("profile")]
+    [Command("me")]
     [Description("View your activity profile")]
     public async Task ProfileAsync(CommandContext ctx, DiscordUser? target = null)
     {

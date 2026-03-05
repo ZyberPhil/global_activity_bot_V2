@@ -17,6 +17,7 @@ public static class BotSetup
             ?? configuration["Database:ConnectionString"]
             ?? throw new InvalidOperationException("No DB_CONNECTION_STRING configured. Set the DB_CONNECTION_STRING environment variable.");
 
+        services.AddMemoryCache();
         services.AddDbContext<BotDbContext>(options =>
             options.UseMySql(
                 connectionString,

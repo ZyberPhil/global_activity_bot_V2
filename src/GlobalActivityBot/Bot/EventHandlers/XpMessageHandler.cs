@@ -1,22 +1,23 @@
-using System.Collections.Concurrent;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 using GlobalActivityBot.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalActivityBot.Bot.EventHandlers;
 
 public class XpMessageHandler : IEventHandler<MessageCreatedEventArgs>
 {
-    private static readonly ConcurrentDictionary<(ulong UserId, ulong GuildId), DateTime> _cooldowns = new();
     private static readonly TimeSpan CooldownDuration = TimeSpan.FromSeconds(60);
 
     private readonly IStatsService _statsService;
+    private readonly IMemoryCache _cache;
     private readonly ILogger<XpMessageHandler> _logger;
 
-    public XpMessageHandler(IStatsService statsService, ILogger<XpMessageHandler> logger)
+    public XpMessageHandler(IStatsService statsService, IMemoryCache cache, ILogger<XpMessageHandler> logger)
     {
         _statsService = statsService;
+        _cache = cache;
         _logger = logger;
     }
 
@@ -27,13 +28,12 @@ public class XpMessageHandler : IEventHandler<MessageCreatedEventArgs>
 
         var userId = eventArgs.Author!.Id;
         var guildId = eventArgs.Guild.Id;
-        var key = (userId, guildId);
-        var now = DateTime.UtcNow;
+        var cacheKey = $"xp_cooldown:{userId}:{guildId}";
 
-        if (_cooldowns.TryGetValue(key, out var lastMessage) && (now - lastMessage) < CooldownDuration)
+        if (_cache.TryGetValue(cacheKey, out _))
             return;
 
-        _cooldowns[key] = now;
+        _cache.Set(cacheKey, true, CooldownDuration);
 
         try
         {
