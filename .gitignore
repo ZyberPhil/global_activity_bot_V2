@@ -13,3 +13,40 @@ Desktop.ini
 *~
 *.swp
 *.swo
+
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+!**/[Pp]ackages/repositories.config
+
+# Publish output
+publish/
+out/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage.json
+
+# Secrets (NEVER commit these!)
+.env
+*.env
+!docker/.env.example
+
+# Docker volumes (local)
+.docker/
+
+# Logs
+*.log
+logs/
+

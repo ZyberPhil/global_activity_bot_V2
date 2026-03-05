@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GlobalActivityBot.Tests/GlobalActivityBot.Tests.csproj" />
+    <Project Path="src/GlobalActivityBot/GlobalActivityBot.csproj" />
+  </Folder>
+</Solution>
